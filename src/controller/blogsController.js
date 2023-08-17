@@ -85,3 +85,18 @@ exports.DeleteBlog = async (req, res) => {
         res.status(400).json({ status: "fail", data: err });
     }
 };
+
+//ReadByID
+
+exports.ReadBlogPostByID = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = { _id: id };
+
+        const data = await blogDB.find(query);
+
+        res.status(200).json({ status: "success", data: data });
+    } catch (err) {
+        res.status(400).json({ status: "fail", data: err });
+    }
+};
