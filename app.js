@@ -18,7 +18,15 @@ app.use(hpp())
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
 
-const limiter= rateLimit({windowMs:15*60*1000,max:3000})
+const limiter = rateLimit({
+	// ...
+	handler: (request, response, next, options) => {
+		if (request.rateLimit.current === request.rateLimit.limit + 1) {
+			// onLimitReached code here
+		}
+		response.status(options.statusCode).send(options.message)
+	},
+})
 app.use(limiter);
 
 
